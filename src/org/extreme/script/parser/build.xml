@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<project name="fine-antlr" default="build-grammer">
+	<property name="jdk6.5.home" value="D:\Personal\extreme\java\jdk6.5" />
+    <target name="build-grammer">
+		<java classname="antlr.Tool" fork="true" failonerror="true" maxmemory="128m" args="-o D:\Personal\extreme\script\src\org\extreme\script\parser">
+			<arg value="x.g" />
+			<classpath>
+				<pathelement location="D:\Personal\extreme\script\lib\antlr.jar" />
+			</classpath>
+		</java>
+	</target>
+</project>
