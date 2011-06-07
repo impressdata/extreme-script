@@ -7,6 +7,7 @@ import org.extreme.commons.util.SimpleTemplateUtils;
 import org.extreme.commons.util.Utils;
 
 
+
 /*
  * 宏.
  * 宏和函数的区别在于，函数的每个参数在传入之前都会Eval, 但宏的参数不会Eval，而是转化成另外的一段代码
@@ -41,14 +42,29 @@ public class MacroUtils {
 	public static final MacroProcessor LET = new MacroProcessor() {
 		
 		public String process(String[] args) {
-			if (args.length < 3) {
+			if (args.length % 2 == 0) {
 				return null;
 			}
 			
 			StringBuffer buffer = new StringBuffer();
 			
-			// TODO FIXME
-			buffer.append(Utils.quote("Not Supportted"));
+			StringBuffer args_param = new StringBuffer();
+			for (int i = 0; i < args.length - 1; i ++) {
+				if (i != 0) {
+					args_param.append(",");
+				}
+				args_param.append(args[i]);
+			}
+
+			try {
+				String let_macro = SimpleTemplateUtils.render(
+						Utils.inputStream2String(MacroUtils.class.getResourceAsStream("/org/extreme/script/parser/LET.tpl"), "utf-8"), 
+						new String[] {"args", "expr"}, new String[] {args_param.toString(), args[args.length - 1]});
+				
+				buffer.append("CompileService.getInstance().compileMacro(" + JSONObject.quote(let_macro) + ").value(c)");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 			
 			return buffer.toString();
 		}

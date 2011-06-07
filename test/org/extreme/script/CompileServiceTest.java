@@ -25,7 +25,7 @@ public class CompileServiceTest extends TestCase {
 		assertEquals(new Integer("48"), compileService.eval(c, "(a + b) * c"));
 	}
 	
-	public void testEvalMulti() {		
+	public void testEvalMulti() {
 		assertEquals(new Integer("24"), compileService.eval(c, "(1 + 2) * c"));
 	}
 	
@@ -34,15 +34,19 @@ public class CompileServiceTest extends TestCase {
 	 * 遇到LET或者IF的时候，特殊处理?
 	 */
 	public void testEvalLet() {
-		assertEquals("(2+4)", compileService.eval(c, "let(a, 5, b, 4, a+b)") + "");
+		assertEquals(new Integer("9"), compileService.eval(c, "let(a, 5, b, 4, a+b)"));
+	}
+	
+	public void testEvalLet2() {
+		assertEquals(new Integer("11"), compileService.eval(c, "let(a, 5 + a, b, 4, a+b)"));
 	}
 	
 	public void testEvalIf() {
-		assertEquals("-2", compileService.eval(c, "IF(false, (a+b), a-b)") + "");
+		assertEquals(new Integer("-2"), compileService.eval(c, "IF(false, (a+b), a-b)"));
 	}
 	
 	public void testEvalAdd() {
-		assertEquals("A1B1", compileService.eval(c, "a1+b1") + "");
+		assertEquals("A1B1", compileService.eval(c, "a1+b1"));
 	}
 	
 	public void testEvalAbs() {
