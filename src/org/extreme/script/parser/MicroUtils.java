@@ -3,7 +3,7 @@ package org.extreme.script.parser;
 import java.io.UnsupportedEncodingException;
 
 import org.extreme.commons.json.JSONObject;
-import org.extreme.commons.util.TemplateUtils;
+import org.extreme.commons.util.SimpleTemplateUtils;
 import org.extreme.commons.util.Utils;
 
 
@@ -25,7 +25,7 @@ public class MicroUtils {
 			StringBuffer buffer = new StringBuffer();
 			
 			try {
-				String if_micro = TemplateUtils.render(
+				String if_micro = SimpleTemplateUtils.render(
 						Utils.inputStream2String(MicroUtils.class.getResourceAsStream("/jdt/parser/IF.tpl"), "utf-8"), 
 						new String[] {"condition", "true_expr", "false_expr"}, args);
 				

@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import org.extreme.commons.ColumnRow;
+import org.extreme.commons.util.SimpleTemplateUtils;
 import org.extreme.commons.util.TemplateUtils;
 import org.extreme.commons.util.Utils;
 
@@ -143,17 +144,17 @@ public class ParseUtils {
 	
 	public static String getParsedExpressionJavaSource(String formula, String index) {
 		try {
-			String tpl = Utils.inputStream2String(ParseUtils.class.getResourceAsStream("/jdt/Expression.tpl"), "utf-8");
+			String tpl = Utils.inputStream2String(ParseUtils.class.getResourceAsStream("/org/extreme/script/Expression.tpl"), "utf-8");
 			
 			StringReader in = new StringReader(formula);
 			XLexer lexer = new XLexer(in);
 			XParser parser = new XParser(lexer);
 			String res = parser.parse();
 			
-			return TemplateUtils.render(tpl, new String[] {"parsed_value", "index"}, new Object[] {res, index});
+			return SimpleTemplateUtils.render(tpl, new String[] {"parsed_value", "index"}, new Object[] {res, index});
 		} catch (Exception e) {
 			try {
-				return Utils.inputStream2String(ParseUtils.class.getResourceAsStream("/jdt/ErrorExpression.tpl"), "utf-8");
+				return Utils.inputStream2String(ParseUtils.class.getResourceAsStream("/org/extreme/script/ErrorExpression.tpl"), "utf-8");
 			} catch (UnsupportedEncodingException e1) {
 				e1.printStackTrace();
 			}
@@ -164,9 +165,9 @@ public class ParseUtils {
 	
 	public static String getMicroJavaSource(String micro, String index) {
 		try {
-			String tpl = Utils.inputStream2String(ParseUtils.class.getResourceAsStream("/jdt/Micro.tpl"), "utf-8");
+			String tpl = Utils.inputStream2String(ParseUtils.class.getResourceAsStream("/org/extreme/script/Micro.tpl"), "utf-8");
 			
-			return TemplateUtils.render(tpl, new String[] {"value", "index"}, new Object[] {micro, index});
+			return SimpleTemplateUtils.render(tpl, new String[] {"value", "index"}, new Object[] {micro, index});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

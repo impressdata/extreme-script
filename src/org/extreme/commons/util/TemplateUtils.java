@@ -18,8 +18,8 @@ import org.extreme.script.parser.UtilEvalError;
 
 
 public class TemplateUtils {
-	public static Pattern ParameterPattern = Pattern.compile("\\$\\{((\\\"[^(\\$\\{)]*\\}[^(\\$\\{)]*\\\")|(\\\"[^(\\$\\{)]*[^\\$]?\\{[^(\\$\\{)]*\\\")|[^\\{\\}])*+\\}");
-	private static final Pattern deprecatedParaPattern = Pattern.compile("\\[\\?[^\\]\\?]*\\?\\]");// [?XXX|XXX?]格式的
+	public static final Pattern ParameterPattern = Pattern.compile("\\$\\{((\\\"[^(\\$\\{)]*\\}[^(\\$\\{)]*\\\")|(\\\"[^(\\$\\{)]*[^\\$]?\\{[^(\\$\\{)]*\\\")|[^\\{\\}])*+\\}");
+	public static final Pattern deprecatedParaPattern = Pattern.compile("\\[\\?[^\\]\\?]*\\?\\]");// [?XXX|XXX?]格式的
 	
 	private TemplateUtils() {
 	}

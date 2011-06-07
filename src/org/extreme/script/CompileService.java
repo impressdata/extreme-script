@@ -55,11 +55,11 @@ public class CompileService {
 		}
 		
 		if (expr == null) {
-			customCompiler.pakageSourceMap.put("jdt/Expression" + index + ".java", ParseUtils.getParsedExpressionJavaSource(formula, "" + index));
+			customCompiler.pakageSourceMap.put("org/extreme/scirpt/Expression" + index + ".java", ParseUtils.getParsedExpressionJavaSource(formula, "" + index));
 			customCompiler.compile(org.eclipse.jdt.internal.compiler.batch.Main.tokenize("-warn:none"));
 			
 			try {
-				Class clazz = customCompiler.classLoader.loadClass("jdt.Expression" + index);
+				Class clazz = customCompiler.classLoader.loadClass("org.extreme.script.Expression" + index);
 				expr = (Expr)clazz.newInstance();
 				
 				cache.put(formula, expr);
@@ -82,11 +82,11 @@ public class CompileService {
 		}
 		
 		if (micro_o == null) {
-			customCompiler.pakageSourceMap.put("jdt/Micro" + micro_index + ".java", ParseUtils.getMicroJavaSource(micro_str, "" + micro_index));
+			customCompiler.pakageSourceMap.put("org/extreme/script/Micro" + micro_index + ".java", ParseUtils.getMicroJavaSource(micro_str, "" + micro_index));
 			customCompiler.compile(org.eclipse.jdt.internal.compiler.batch.Main.tokenize("-warn:none"));
 			
 			try {
-				Class clazz = customCompiler.classLoader.loadClass("jdt.Micro" + micro_index);
+				Class clazz = customCompiler.classLoader.loadClass("org.extreme.script.Micro" + micro_index);
 				micro_o = (Micro)clazz.newInstance();
 				
 				micro_cache.put(micro_str, micro_o);

@@ -1,14 +1,14 @@
-package jdt;
+package org.extreme.script;
 
-import com.fr.report.script.Calculator;
-import com.fr.report.script.core.parser.Ambiguity;
-import com.fr.report.script.core.parser.NumberLiteral;
-import com.fr.report.script.core.parser.FunctionCall;
-import com.fr.report.script.core.parser.ColumnRowLiteral;
-import com.fr.report.script.core.parser.ColumnRowRange;
-import com.fr.report.script.core.parser.Node;
-import com.fr.report.script.core.parser.UtilEvalError;
-import com.fr.base.ColumnRow;
+import org.extreme.script.Calculator;
+import org.extreme.script.parser.Ambiguity;
+import org.extreme.script.parser.NumberLiteral;
+import org.extreme.script.parser.FunctionCall;
+import org.extreme.script.parser.ColumnRowLiteral;
+import org.extreme.script.parser.ColumnRowRange;
+import org.extreme.script.parser.Node;
+import org.extreme.script.parser.UtilEvalError;
+import org.extreme.commons.ColumnRow;
 
 /*
  * TODO: 自动引入import 类的问题

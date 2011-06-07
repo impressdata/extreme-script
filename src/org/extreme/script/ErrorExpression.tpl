@@ -1,6 +1,6 @@
-package jdt;
+package org.extreme.script;
 
-import com.fr.report.script.Calculator;
+import org.extreme.script.Calculator;
 
 public class Expression implements Expr {
 	
