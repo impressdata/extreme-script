@@ -22,11 +22,11 @@ public class CompileServiceTest extends TestCase {
 	}
 
 	public void testEvalMulti0() {
-		assertEquals("((2+4)*8)", compileService.eval(c, "(a + b) * c"));
+		assertEquals(new Integer("48"), compileService.eval(c, "(a + b) * c"));
 	}
 	
 	public void testEvalMulti() {		
-		assertEquals("((1+2)*8)", compileService.eval(c, "(1 + 2) * c"));
+		assertEquals(new Integer("24"), compileService.eval(c, "(1 + 2) * c"));
 	}
 	
 	// Test Lazy??? LET ºÍ IF
@@ -46,11 +46,11 @@ public class CompileServiceTest extends TestCase {
 	}
 	
 	public void testEvalAbs() {
-		assertEquals("6", compileService.eval(c, "abs(a+b)") + "");
+		assertEquals(new Integer("6"), compileService.eval(c, "abs(a+b)"));
 	}
 	
 	public void testEvalClosure() {
-		assertEquals("((1+2)*(4+5))", compileService.eval(c, "(1+2) * (4+ 5)") + "");
+		assertEquals(new Integer("27"), compileService.eval(c, "(1+2) * (4+ 5)"));
 	}
 	
 	public void testIfPerformance10000() {

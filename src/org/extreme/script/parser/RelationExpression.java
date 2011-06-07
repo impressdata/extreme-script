@@ -1,33 +1,19 @@
 package org.extreme.script.parser;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.extreme.commons.util.ComparatorUtils;
-import org.extreme.script.Calculator;
 import org.extreme.script.FArray;
 
 
 public class RelationExpression extends MathExpression {
-    private static final String GT = ">";
-    private static final String LT = "<";
-    private static final String GE = ">=";
-    private static final String LE = "<=";
-    private static final String EQ = "=";
-    private static final String NE1 = "!=";
-    private static final String NE2 = "<>";
-    
-	Node left;
-	String op;
-	Node right;
-	
-	RelationExpression(Node left, String op, Node right) {
-		this.left = left;
-		this.op = op;
-		this.right = right;
-	}
+    public static final String GT = ">";
+    public static final String LT = "<";
+    public static final String GE = ">=";
+    public static final String LE = "<=";
+    public static final String EQ = "=";
+    public static final String NE1 = "!=";
+    public static final String NE2 = "<>";
 	
 	private static Boolean onEQ(String op) {
 		return Boolean.valueOf(GE.equals(op) || LE.equals(op) || EQ.equals(op));
@@ -39,30 +25,6 @@ public class RelationExpression extends MathExpression {
 	
 	private static Boolean onGT(String op) {
 		return Boolean.valueOf(GT.equals(op) || GE.equals(op) || NE1.equals(op) || NE2.equals(op));
-	}
-	
-	protected int sizeOfNodes() {
-		int size = 0;
-		if (left != null) size++;
-		if (right != null) size++;
-		
-		return size;
-	}
-	
-	protected String emptyNodesException() {
-		return "addExpression should not be empty";
-	}
-	
-	protected Node getNodeByIndex(int idx) {
-		return idx == 0 ? left : right;
-	}
-	
-	protected String getOpByIndex(int idx) {
-		return op;
-	}
-	
-	protected boolean shortcutJudge() {
-		return false;
 	}
 	
 	protected Object arrayBinaryOperation(FArray array1, FArray array2, String op) {
@@ -183,73 +145,6 @@ public class RelationExpression extends MathExpression {
 			return onGT(op);
 		} else {
 			return onLT(op);
-		}
-	}
-
-	public void traversal4Tiny(TinyHunter hunter) {
-		if (left != null) {
-			left.traversal4Tiny(hunter);
-		}
-		if (right != null) {
-			right.traversal4Tiny(hunter);
-		}
-	}
-	
-	public String exString(Calculator calculator) {
-		StringBuffer sb = new StringBuffer();
-		sb.append(left.exString(calculator));
-		if(op != null && right != null) {
-			sb.append(' ').append(op).append(' ').append(right.exString(calculator));
-		}
-		
-		return sb.toString();
-	}
-	
-	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		sb.append(left);
-		if(op != null && right != null) {
-			sb.append(' ').append(op).append(' ').append(right);
-		}
-		
-		return sb.toString();
-	}
-	
-	public String getExpression(int rowIndex, int rowChanged, int columnIndex, int colChanged, boolean isParameter) {
-		StringBuffer sb = new StringBuffer();
-		sb.append(left.getExpression(rowIndex, rowChanged, columnIndex, colChanged, isParameter));
-		if(op != null && right != null) {
-			sb.append(' ').append(op).append(' ').append(right.getExpression(rowIndex, rowChanged, columnIndex, colChanged, isParameter));
-		}
-		
-		return sb.toString();
-	}
-
-	public String[] parserParameter() {
-		List paraList = new ArrayList();
-
-		paraList.addAll(Arrays.asList(left.parserParameter()));
-		if(op != null && right != null) {
-			paraList.addAll(Arrays.asList(right.parserParameter()));
-		}
-		return (String[]) paraList.toArray(new String[paraList.size()]);
-	}
-	
-	public void trav4HuntSIL(List list) {
-		if (left != null) {
-			left.trav4HuntSIL(list);
-		}
-		if (right != null) {
-			right.trav4HuntSIL(list);
-		}
-	}
-	
-	public void trav4HuntBIL(List list) {
-		if (left != null) {
-			left.trav4HuntBIL(list);
-		}
-		if (right != null) {
-			right.trav4HuntBIL(list);
 		}
 	}
 }

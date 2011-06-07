@@ -966,8 +966,8 @@ public XParser(ParserSharedInputState state) {
 					atom = ParseUtils.newInstance("DatasetFunctionCall", 
 						new String[] {org.extreme.commons.util.Utils.quote(f_name), org.extreme.commons.util.Utils.quote(s_name), ParseUtils.toObjectArrayString(ex_array)});
 				} else {
-					if (MicroUtils.isMicro(f_name)) {
-						atom = MicroUtils.toMicro(f_name, ex_array);
+					if (MacroUtils.isMacro(f_name)) {
+						atom = MacroUtils.toMacro(f_name, ex_array);
 					} else {
 						atom = ParseUtils.newInstance("FunctionCall", new String[] {org.extreme.commons.util.Utils.quote(f_name), ParseUtils.toObjectArrayString(ex_array)});
 					}

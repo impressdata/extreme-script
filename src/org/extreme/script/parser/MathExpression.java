@@ -7,7 +7,7 @@ import org.extreme.commons.util.Utils;
 
 
 
-public abstract class MathExpression extends BinaryExpression {
+public abstract class MathExpression {
 	
 	public Object objectBinaryOperation(Object left, Object right, String op) throws UtilEvalError {
 		if (left == OperationUtils.POSITIVE_INFINITY) {

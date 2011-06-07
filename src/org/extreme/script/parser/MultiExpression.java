@@ -2,29 +2,16 @@ package org.extreme.script.parser;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import org.extreme.commons.util.Utils;
-import org.extreme.script.Calculator;
 
 
 public class MultiExpression extends MathExpression {
-    private static final String MULTI = "*";
-    private static final String DIV = "/";
-    private static final String MOD = "%";
+    public static final String MULTI = "*";
+    public static final String DIV = "/";
+    public static final String MOD = "%";
     // :默认的decimal相除时的精度
     private static final int DEFAULT_DECIMAL_SCALE = 20;
-    
-	String[] ops;
-	Node[] powers;
-	
-	
-	MultiExpression(Node[] powers, String[] ops) {
-		this.powers = powers;
-		this.ops = ops;
-	}
 	
 	private static boolean isMULTI(String op) {
 		return MULTI.equals(op);
@@ -36,26 +23,6 @@ public class MultiExpression extends MathExpression {
 	
 	private static boolean isMOD(String op) {
 		return MOD.equals(op);
-	}
-	
-	protected int sizeOfNodes() {
-		return powers.length;
-	}
-	
-	protected String emptyNodesException() {
-		return "powerList should not be empty";
-	}
-	
-	protected Node getNodeByIndex(int idx) {
-		return powers[idx];
-	}
-	
-	protected String getOpByIndex(int idx) {
-		return ops[idx];
-	}
-	
-	protected boolean shortcutJudge() {
-		return false;
 	}
 	
 	protected Object ccNINI(String op) {
@@ -214,68 +181,6 @@ public class MultiExpression extends MathExpression {
 			}
 		} else {
 			return new Integer(I1 % I2);
-		}
-	}
-
-	public void traversal4Tiny(TinyHunter hunter) {
-		for (int i = 0; i < powers.length; i++) {
-			powers[i].traversal4Tiny(hunter);
-		}
-	}
-	
-	public String exString(Calculator calculator) {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < powers.length; i++) {
-			if (i > 0) {
-				sb.append(' ').append(ops[i - 1]).append(' ');
-			}
-			sb.append(powers[i].exString(calculator));
-		}
-
-		return sb.toString();
-	}
-	
-	public String toString() {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < powers.length; i++) {
-			if (i > 0) {
-				sb.append(' ').append(ops[i - 1]).append(' ');
-			}
-			sb.append(powers[i]);
-		}
-
-		return sb.toString();
-	}
-	
-	public String getExpression(int rowIndex, int rowChanged, int columnIndex, int colChanged, boolean isParameter) {
-		StringBuffer sb = new StringBuffer();
-		for (int i = 0; i < powers.length; i++) {
-			if (i > 0) {
-				sb.append(' ').append(ops[i - 1]).append(' ');
-			}
-			sb.append(powers[i].getExpression(rowIndex, rowChanged, columnIndex, colChanged, isParameter));
-		}
-
-		return sb.toString();
-	}
-	
-	public String[] parserParameter() {
-		List paraList = new ArrayList();
-		for (int i = 0, length = powers.length; i < length; i++) {
-			paraList.addAll(Arrays.asList(powers[i].parserParameter()));
-		}
-		return (String[])paraList.toArray(new String[paraList.size()]);
-	}
-	
-	public void trav4HuntSIL(List list) {
-		for (int i = 0; i < powers.length; i++) {
-			powers[i].trav4HuntSIL(list);
-		}
-	}
-	
-	public void trav4HuntBIL(List list) {
-		for (int i = 0; i < powers.length; i++) {
-			powers[i].trav4HuntBIL(list);
 		}
 	}
 }

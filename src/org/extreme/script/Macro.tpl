@@ -10,7 +10,7 @@ import org.extreme.script.parser.Node;
 import org.extreme.script.parser.UtilEvalError;
 import org.extreme.commons.ColumnRow;
 
-public class Micro${index} extends CoreOperation implements Micro {	
+public class Macro${index} extends CoreOperation implements Macro {	
 	public Object value(Calculator c) throws UtilEvalError {
 		${value}
 	}

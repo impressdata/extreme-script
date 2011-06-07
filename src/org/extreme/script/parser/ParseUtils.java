@@ -163,11 +163,11 @@ public class ParseUtils {
 		return null;
 	}
 	
-	public static String getMicroJavaSource(String micro, String index) {
+	public static String getMacroJavaSource(String macro, String index) {
 		try {
-			String tpl = Utils.inputStream2String(ParseUtils.class.getResourceAsStream("/org/extreme/script/Micro.tpl"), "utf-8");
+			String tpl = Utils.inputStream2String(ParseUtils.class.getResourceAsStream("/org/extreme/script/Macro.tpl"), "utf-8");
 			
-			return SimpleTemplateUtils.render(tpl, new String[] {"value", "index"}, new Object[] {micro, index});
+			return SimpleTemplateUtils.render(tpl, new String[] {"value", "index"}, new Object[] {macro, index});
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -18,7 +18,7 @@ public class CompileService {
 	
 	private static int index = 100;
 	
-	private static int micro_index = 100;
+	private static int macro_index = 100;
 	
 	private CompileService() {
 		customCompiler = new CustomCompiler(
@@ -75,28 +75,28 @@ public class CompileService {
 		return expr;
 	}
 	
-	public Micro compileMicro(String micro_str) {
-		Micro micro_o = null;
-		if (micro_cache.containsKey(micro_str)) {
-			micro_o = (Micro)micro_cache.get(micro_str);
+	public Macro compileMacro(String macro_str) {
+		Macro micro_o = null;
+		if (micro_cache.containsKey(macro_str)) {
+			micro_o = (Macro)micro_cache.get(macro_str);
 		}
 		
 		if (micro_o == null) {
-			customCompiler.pakageSourceMap.put("org/extreme/script/Micro" + micro_index + ".java", ParseUtils.getMicroJavaSource(micro_str, "" + micro_index));
+			customCompiler.pakageSourceMap.put("org/extreme/script/Macro" + macro_index + ".java", ParseUtils.getMacroJavaSource(macro_str, "" + macro_index));
 			customCompiler.compile(org.eclipse.jdt.internal.compiler.batch.Main.tokenize("-warn:none"));
 			
 			try {
-				Class clazz = customCompiler.classLoader.loadClass("org.extreme.script.Micro" + micro_index);
-				micro_o = (Micro)clazz.newInstance();
+				Class clazz = customCompiler.classLoader.loadClass("org.extreme.script.Macro" + macro_index);
+				micro_o = (Macro)clazz.newInstance();
 				
-				micro_cache.put(micro_str, micro_o);
+				micro_cache.put(macro_str, micro_o);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
 			
 			customCompiler.pakageSourceMap.clear();
 			
-			micro_index ++;
+			macro_index ++;
 		}
 		
 		return micro_o;
