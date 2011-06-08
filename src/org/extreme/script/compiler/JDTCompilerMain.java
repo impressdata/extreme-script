@@ -1,4 +1,4 @@
-package org.extreme.script;
+package org.extreme.script.compiler;
 import java.io.PrintWriter;
 
 import org.eclipse.jdt.core.compiler.batch.BatchCompiler;

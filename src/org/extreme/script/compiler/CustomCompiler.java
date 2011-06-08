@@ -1,4 +1,4 @@
-package org.extreme.script;
+package org.extreme.script.compiler;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;

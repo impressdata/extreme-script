@@ -1,4 +1,4 @@
-package org.extreme.script;
+package org.extreme.script.compiler;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.Collection;

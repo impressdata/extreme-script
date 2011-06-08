@@ -8,6 +8,7 @@ import org.extreme.script.parser.ColumnRowLiteral;
 import org.extreme.script.parser.ColumnRowRange;
 import org.extreme.script.parser.Node;
 import org.extreme.script.parser.UtilEvalError;
+import org.extreme.script.compiler.CompileService;
 import org.extreme.commons.ColumnRow;
 
 /*

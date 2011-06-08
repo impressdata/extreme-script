@@ -1,7 +1,10 @@
-package org.extreme.script;
+package org.extreme.script.compiler;
 
 import java.io.PrintWriter;
 
+import org.extreme.script.Calculator;
+import org.extreme.script.Expr;
+import org.extreme.script.Macro;
 import org.extreme.script.parser.ParseUtils;
 import org.extreme.script.parser.UtilEvalError;
 

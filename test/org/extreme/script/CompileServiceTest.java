@@ -1,5 +1,7 @@
 package org.extreme.script;
 
+import org.extreme.script.compiler.CompileService;
+
 import junit.framework.TestCase;
 
 public class CompileServiceTest extends TestCase {
@@ -60,6 +62,18 @@ public class CompileServiceTest extends TestCase {
 	public void testIfPerformance10000() {
 		for (int i = 0; i < 10000; i ++) {
 			testEvalIf();
+		}
+	}
+	
+	public void testLetPerformance10000() {
+		for (int i = 0; i < 10000; i ++) {
+			testEvalLet();
+		}
+	}
+	
+	public void testMulti0Performance10000() {
+		for (int i = 0; i < 10000; i ++) {
+			testEvalMulti0();
 		}
 	}
 }
