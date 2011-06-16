@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 
 import org.extreme.commons.Parameter;
 import org.extreme.script.Calculator;
-import org.extreme.script.ParameterMapNameSpace;
+import org.extreme.script.ParameterMapScope;
 import org.extreme.script.parser.Expression;
 
 import antlr.ANTLRException;
@@ -85,7 +85,7 @@ public class ParameterHelper {
 
         Calculator c = Calculator.createCalculator();
 
-        ParameterMapNameSpace ns = ParameterMapNameSpace.create(parameters);
+        ParameterMapScope ns = ParameterMapScope.create(parameters);
         c.pushNameSpace(ns);
         String str = TemplateUtils.renderTpl(c, text);
 

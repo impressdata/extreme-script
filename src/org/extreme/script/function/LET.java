@@ -4,7 +4,7 @@ import java.util.regex.Pattern;
 
 import org.extreme.script.Calculator;
 import org.extreme.script.CalculatorEmbeddedFunction;
-import org.extreme.script.ParameterMapNameSpace;
+import org.extreme.script.ParameterMapScope;
 import org.extreme.script.Primitive;
 import org.extreme.script.parser.Node;
 import org.extreme.script.parser.UtilEvalError;
@@ -33,7 +33,7 @@ public class LET extends CalculatorEmbeddedFunction {
         	}
         }
         
-        ParameterMapNameSpace nameSpace = ParameterMapNameSpace.create(variableMap);
+        ParameterMapScope nameSpace = ParameterMapScope.create(variableMap);
         c.pushNameSpace(nameSpace);
         Object res = c.eval(args[args.length - 1]);
         c.removeNameSpace(nameSpace);

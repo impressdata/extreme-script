@@ -5,11 +5,6 @@ public class ScriptConstants {
 	private ScriptConstants() {	
 	}
 	
-	/**
-     * Tree node tag
-     */
-    public static final String LAYER_TAG = "@";
-
     /**
      * Detail tag.
      */

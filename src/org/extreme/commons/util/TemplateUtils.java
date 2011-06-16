@@ -12,8 +12,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.extreme.script.Calculator;
-import org.extreme.script.NameSpace;
-import org.extreme.script.ParameterMapNameSpace;
+import org.extreme.script.Scope;
+import org.extreme.script.ParameterMapScope;
 import org.extreme.script.parser.UtilEvalError;
 
 
@@ -66,13 +66,13 @@ public class TemplateUtils {
 	public static String render(String tpl, java.util.Map context) throws Exception {
 		Calculator c = Calculator.createCalculator();
 		
-		String str = TemplateUtils.renderTpl(c, tpl, ParameterMapNameSpace.create(context));
+		String str = TemplateUtils.renderTpl(c, tpl, ParameterMapScope.create(context));
 		
 		return str;
 	}
 	
 	public static String render(String tpl, java.util.Map context, Calculator c) throws Exception {
-		String str = TemplateUtils.renderTpl(c, tpl, ParameterMapNameSpace.create(context));
+		String str = TemplateUtils.renderTpl(c, tpl, ParameterMapScope.create(context));
 		
 		return str;
 	}
@@ -128,7 +128,7 @@ public class TemplateUtils {
         return renderTpl(c, tpl, Eval_RenderAction);
     }
 
-    public static String renderTpl(Calculator c, String tpl, NameSpace ns) {
+    public static String renderTpl(Calculator c, String tpl, Scope ns) {
         c.pushNameSpace(ns);
         String str = renderTpl(c, tpl);
         c.removeNameSpace(ns);

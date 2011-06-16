@@ -7,8 +7,8 @@ import org.extreme.commons.util.LogUtil;
 import org.extreme.script.Calculator;
 import org.extreme.script.FArray;
 import org.extreme.script.LambdaFunction;
-import org.extreme.script.NameSpace;
-import org.extreme.script.ParameterMapNameSpace;
+import org.extreme.script.Scope;
+import org.extreme.script.ParameterMapScope;
 import org.extreme.script.parser.Expression;
 import org.extreme.script.parser.Node;
 import org.extreme.script.parser.UtilEvalError;
@@ -41,7 +41,7 @@ public class MAPARRAY extends LambdaFunction {
 			java.util.Map m = new java.util.HashMap();
 			m.put("item", ob);
 			m.put("index", new Integer(index + 1));
-			NameSpace ns = ParameterMapNameSpace.create(m);
+			Scope ns = ParameterMapScope.create(m);
 			cal.pushNameSpace(ns);
 			try {
 				Object obj = cal.eval(expression);

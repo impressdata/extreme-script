@@ -4,7 +4,7 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 
 import org.extreme.script.Calculator;
-import org.extreme.script.ParameterMapNameSpace;
+import org.extreme.script.ParameterMapScope;
 
 public class SimpleTemplateUtils {
 	/*

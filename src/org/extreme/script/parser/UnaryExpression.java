@@ -8,7 +8,7 @@ import org.extreme.script.FArray;
 import org.extreme.script.Primitive;
 
 
-public class UnaryExpression extends AbstractNode {
+public class UnaryExpression implements Node {
 	String op;
 	Atom atom;
 	

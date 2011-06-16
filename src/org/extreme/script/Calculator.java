@@ -112,11 +112,11 @@ public final class Calculator implements Serializable, Cloneable {
         this.globalNameSpace.set(name, value);
     }
 
-    public void pushNameSpace(NameSpace ns) {
+    public void pushNameSpace(Scope ns) {
         globalNameSpace.namespaceList.addFirst(ns);
     }
 
-    public boolean removeNameSpace(NameSpace ns) {
+    public boolean removeNameSpace(Scope ns) {
         return globalNameSpace.namespaceList.remove(ns);
     }
 
@@ -134,10 +134,6 @@ public final class Calculator implements Serializable, Cloneable {
 
     public Function resolveMethod(Object var) {
         return this.globalNameSpace.getMethod(var, this);
-    }
-
-    public Object resolveRelateCellElements(ColumnRow columnrow) {
-        return this.globalNameSpace.getRelateCellElements(columnrow, this);
     }
 
     public Expression parse(Object o) throws ANTLRException {
@@ -398,7 +394,7 @@ public final class Calculator implements Serializable, Cloneable {
         return ex == null ? statement : ex.exString(this);
     }
 
-    protected static class NameSpaceChain implements NameSpace {
+    protected static class NameSpaceChain implements Scope {
         //用来解析基本name的map,里面保存参数对应的值
 
         private Map variables = new HashMap();
@@ -409,51 +405,32 @@ public final class Calculator implements Serializable, Cloneable {
             Function res = null;
 
             for (int i = 0, len = namespaceList.size(); i < len; i++) {
-                res = ((NameSpace) namespaceList.get(i)).getMethod(var, calculator);
+                res = ((Scope) namespaceList.get(i)).getMethod(var, calculator);
                 if (res != null) {
                     return res;
                 }
             }
 
             return null;
-        }
-
-        public Object getRelateCellElements(ColumnRow columnrow, Calculator calculator) {
-            Object res = null;
-
-            for (int i = 0, len = this.namespaceList.size(); i < len; i++) {
-                res = ((NameSpace) this.namespaceList.get(i)).getRelateCellElements(columnrow, calculator);
-                if (res != null) {
-                    return res;
-                }
-            }
-
-            return res;
         }
 
         public Object getVariable(Object var, Calculator calculator) {
             Object res = null;
 
-            //先找variables中保存的
-            res = unwrapVariable((Variable) variables.get(var));
-
-            if (res != null) {
-                return res;
+           //先找variables中保存的
+            if (variables.containsKey(var)) {
+            	return variables.get(var);
             }
 
             //再找namespaceList中保存的
             for (int i = 0, len = namespaceList.size(); i < len; i++) {
-                res = ((NameSpace) namespaceList.get(i)).getVariable(var, calculator);
+                res = ((Scope) namespaceList.get(i)).getVariable(var, calculator);
                 if (res != null) {
                     return res;
                 }
             }
 
             return null;
-        }
-
-        private Object unwrapVariable(Variable var) {
-            return (var == null) ? null : var.getValue();
         }
 
         private void set(Object var, Object value) {
@@ -465,20 +442,14 @@ public final class Calculator implements Serializable, Cloneable {
                 value = Primitive.NULL;
             }
 
-            Variable existing = (Variable) variables.get(var);
-
-            if (existing != null) {
-                existing.setValue(value);
-            } else {
-                variables.put(var, new Variable(value));
-            }
+            variables.put(var, value);
         }
     }
     
     /*
      * 根据我们内置的函数名解析机制
      */
-    private static final NameSpace DEFAULT_NAMESPACE = new AbstractNameSpace() {
+    private static final Scope DEFAULT_NAMESPACE = new Scope() {
 
         private HashMap initedFunctionClasses; //String -> Class
 

@@ -7,7 +7,7 @@ import org.extreme.script.Calculator;
 import org.extreme.script.Primitive;
 
 
-public class Expression extends AbstractNode {
+public class Expression implements Node {
 	Node conditionpression;
 
 	Expression(Node conditionpression) {

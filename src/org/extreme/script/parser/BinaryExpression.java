@@ -7,7 +7,7 @@ import org.extreme.script.Primitive;
 /*
  * ¶þÔª²Ù×÷
  */
-public abstract class BinaryExpression extends AbstractNode {
+public abstract class BinaryExpression implements Node {
 	
 	public Object eval(Calculator calculator) throws UtilEvalError {
 		int size = sizeOfNodes();

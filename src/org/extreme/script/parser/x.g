@@ -152,10 +152,8 @@ protected unary returns [String unary]
 	|	atom = num_literal
 	|	atom = columnrow_address
 	|	atom = column_index
-	|   atom = layer_index
 	|	atom = closure
-	|	atom = array
-	|   atom = page_cr)
+	|	atom = array)
 	{
 		if (op == null) {
 			unary = atom;
@@ -177,8 +175,6 @@ protected ident_prefix returns [String atom]
 	atom = ident_fn[f_name]
 	|
 	atom = ident_sheet[f_name]
-	|
-	atom = ident_block[f_name]
 	|
 	atom = ident_cr[f_name]
 	)
@@ -225,22 +221,6 @@ protected ident_sheet [java.lang.String sheet_name] returns [String atom]
 	cr = ident_cr[x_name]
 	{
 		atom = ParseUtils.newInstance("SheetIntervalLiteral", new String[] {sheet_name, ParseUtils.cr(cr)});
-	}
-	;
-
-// block1~a1
-protected ident_block [java.lang.String block_name] returns [String atom]
-	{
-		String cr;
-		String x_name = null; // first name
-	}
-	:
-	WAVE
-	id : IDENT {x_name = id.getText();} 
-	cr = ident_cr[x_name]
-	{
-		atom = ParseUtils.newInstance("BlockIntervalLiteral", new String[] {block_name, ParseUtils.cr(cr)});
-		//ParseUtils.fnString("new BlockIntervalLiteral(block_name, cr)");
 	}
 	;
 	
@@ -393,23 +373,6 @@ protected closure returns [String close]
 	:	LPAREN ex = conditionOr RPAREN
 	{close = "(" + ex + ")";}
 	;
-	
-/*
- * {A1} | {A1:B2}
- */
-protected page_cr returns [String cr]
-	{
-		String atom;
-		String f_name = null;
-	}
-	:	LCURLY
-	id : IDENT {f_name = id.getText();} 
-	atom = ident_cr[f_name]
-	RCURLY
-	{
-		cr = ParseUtils.newInstance("ColumnRowRangeInPage", org.extreme.commons.util.Utils.quote(atom));
-	}
-	;
 
 /*
  * &a1
@@ -428,16 +391,6 @@ protected column_index returns [String idx]
 	:	SHARP i:INT_NUM
 	{
 		idx = ParseUtils.newInstance("AtomColumnIndex", i.getText()/* int*/);	
-	}
-	;
-
-/*
- * @1
- */
-protected layer_index returns [String idx]
-	:	AT i:INT_NUM
-	{
-		idx = ParseUtils.newInstance("AtomLayerIndex", i.getText()/* int*/);
 	}
 	;
 

@@ -10,12 +10,12 @@ import org.extreme.commons.util.LogUtil;
 import org.extreme.script.parser.UtilEvalError;
 
 
-public class ParameterMapNameSpace extends AbstractNameSpace {
+public class ParameterMapScope implements Scope {
 	protected Calculator nativeCalculator;
 	private java.util.Map nativeParameterMap = new java.util.HashMap();
 	private static final Object CUR_VAR = new Object();
 	
-	public static ParameterMapNameSpace create(Parameter[] ps) {
+	public static ParameterMapScope create(Parameter[] ps) {
 		java.util.Map parameterMap = new java.util.HashMap();
 		if (ps != null) {
 			for (int i = 0; i < ps.length; i++) {
@@ -26,11 +26,11 @@ public class ParameterMapNameSpace extends AbstractNameSpace {
 		return create(parameterMap);
 	}
 	
-	public static ParameterMapNameSpace create(java.util.Map parameterMap) {
-		return new ParameterMapNameSpace(parameterMap);
+	public static ParameterMapScope create(java.util.Map parameterMap) {
+		return new ParameterMapScope(parameterMap);
 	}
 
-	protected ParameterMapNameSpace(java.util.Map parameterMap) {
+	protected ParameterMapScope(java.util.Map parameterMap) {
 		nativeCalculator = Calculator.createCalculator();
 		if (parameterMap != null) {
 			java.util.Iterator entryIt = parameterMap.entrySet().iterator();
@@ -100,5 +100,10 @@ public class ParameterMapNameSpace extends AbstractNameSpace {
 		}
 		
 		return this.nativeParameterMap.get(key.toUpperCase());
+	}
+
+	public Function getMethod(Object var, Calculator calculator) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

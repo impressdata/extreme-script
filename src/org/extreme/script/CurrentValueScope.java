@@ -1,10 +1,10 @@
 package org.extreme.script;
 
 
-public class CurrentValueNameSpace extends AbstractNameSpace {
+public class CurrentValueScope implements Scope {
 	private Object currentValue;
 	
-	public CurrentValueNameSpace(Object currentValue) {
+	public CurrentValueScope(Object currentValue) {
 		this.currentValue = currentValue;
 	}
 
@@ -21,6 +21,11 @@ public class CurrentValueNameSpace extends AbstractNameSpace {
 			return this.currentValue;
 		}
 		
+		return null;
+	}
+
+	public Function getMethod(Object var, Calculator calculator) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }
