@@ -435,13 +435,11 @@ public XParser(ParserSharedInputState state) {
 		case IDENT:
 		case LPAREN:
 		case LBRACK:
-		case LCURLY:
 		case INT_NUM:
 		case STRING_LITERAL_DSQ:
 		case STRING_LITERAL_SSQ:
 		case CR_ADRESS:
 		case SHARP:
-		case AT:
 		{
 			break;
 		}
@@ -484,11 +482,6 @@ public XParser(ParserSharedInputState state) {
 			atom=column_index();
 			break;
 		}
-		case AT:
-		{
-			atom=layer_index();
-			break;
-		}
 		case LPAREN:
 		{
 			atom=closure();
@@ -497,11 +490,6 @@ public XParser(ParserSharedInputState state) {
 		case LBRACK:
 		{
 			atom=array();
-			break;
-		}
-		case LCURLY:
-		{
-			atom=page_cr();
 			break;
 		}
 		default:
@@ -538,16 +526,6 @@ public XParser(ParserSharedInputState state) {
 		case LPAREN:
 		{
 			atom=ident_fn(f_name);
-			break;
-		}
-		case LNOT:
-		{
-			atom=ident_sheet(f_name);
-			break;
-		}
-		case WAVE:
-		{
-			atom=ident_block(f_name);
 			break;
 		}
 		case EOF:
@@ -617,43 +595,7 @@ public XParser(ParserSharedInputState state) {
 				text = text.substring(1, text.length() - 1);
 			
 		{
-		switch ( LA(1)) {
-		case LNOT:
-		{
-			atom=ident_sheet(text);
-			break;
-		}
-		case EOF:
-		case LOR:
-		case LAND:
-		case EQUAL:
-		case EQUAL2:
-		case NOT_EQUAL:
-		case NOT_EQUAL2:
-		case GE:
-		case GT:
-		case LE:
-		case LT:
-		case PLUS:
-		case MINUS:
-		case STAR:
-		case DIV:
-		case MOD:
-		case POWER:
-		case COMMA:
-		case RPAREN:
-		case RBRACK:
-		case RCURLY:
-		case DCOLON:
-		{
-			atom=sil_ssq(text);
-			break;
-		}
-		default:
-		{
-			throw new NoViableAltException(LT(1), getFilename());
-		}
-		}
+		atom=sil_ssq(text);
 		}
 		return atom;
 	}
@@ -714,20 +656,6 @@ public XParser(ParserSharedInputState state) {
 		return idx;
 	}
 	
-	protected final String  layer_index() throws RecognitionException, TokenStreamException {
-		String idx;
-		
-		Token  i = null;
-		
-		match(AT);
-		i = LT(1);
-		match(INT_NUM);
-		
-				idx = ParseUtils.newInstance("AtomLayerIndex", i.getText()/* int*/);
-			
-		return idx;
-	}
-	
 	protected final String  closure() throws RecognitionException, TokenStreamException {
 		String close;
 		
@@ -755,18 +683,16 @@ public XParser(ParserSharedInputState state) {
 		case IDENT:
 		case LPAREN:
 		case LBRACK:
-		case LCURLY:
 		case INT_NUM:
 		case STRING_LITERAL_DSQ:
 		case STRING_LITERAL_SSQ:
 		case CR_ADRESS:
 		case SHARP:
-		case AT:
 		{
 			ex=conditionOr();
 			list.add(ex);
 			{
-			_loop65:
+			_loop63:
 			do {
 				if ((LA(1)==COMMA)) {
 					match(COMMA);
@@ -780,13 +706,11 @@ public XParser(ParserSharedInputState state) {
 					case IDENT:
 					case LPAREN:
 					case LBRACK:
-					case LCURLY:
 					case INT_NUM:
 					case STRING_LITERAL_DSQ:
 					case STRING_LITERAL_SSQ:
 					case CR_ADRESS:
 					case SHARP:
-					case AT:
 					{
 						ex=conditionOr();
 						list.set(list.size() - 1, ex);
@@ -805,7 +729,7 @@ public XParser(ParserSharedInputState state) {
 					}
 				}
 				else {
-					break _loop65;
+					break _loop63;
 				}
 				
 			} while (true);
@@ -825,27 +749,6 @@ public XParser(ParserSharedInputState state) {
 		match(RBRACK);
 		ae = ParseUtils.newInstance("ArrayExpression", ParseUtils.toTypeArrayString((String[])list.toArray(new String[list.size()]), "String"));
 		return ae;
-	}
-	
-	protected final String  page_cr() throws RecognitionException, TokenStreamException {
-		String cr;
-		
-		Token  id = null;
-		
-				String atom;
-				String f_name = null;
-			
-		
-		match(LCURLY);
-		id = LT(1);
-		match(IDENT);
-		f_name = id.getText();
-		atom=ident_cr(f_name);
-		match(RCURLY);
-		
-				cr = ParseUtils.newInstance("ColumnRowRangeInPage", org.extreme.commons.util.Utils.quote(atom));
-			
-		return cr;
 	}
 	
 	protected final String  ident_fn(
@@ -892,13 +795,11 @@ public XParser(ParserSharedInputState state) {
 		case IDENT:
 		case LPAREN:
 		case LBRACK:
-		case LCURLY:
 		case INT_NUM:
 		case STRING_LITERAL_DSQ:
 		case STRING_LITERAL_SSQ:
 		case CR_ADRESS:
 		case SHARP:
-		case AT:
 		{
 			arg=conditionOr();
 			args.add(arg);
@@ -917,13 +818,11 @@ public XParser(ParserSharedInputState state) {
 					case IDENT:
 					case LPAREN:
 					case LBRACK:
-					case LCURLY:
 					case INT_NUM:
 					case STRING_LITERAL_DSQ:
 					case STRING_LITERAL_SSQ:
 					case CR_ADRESS:
 					case SHARP:
-					case AT:
 					{
 						arg=conditionOr();
 						args.set(args.size() - 1, arg);
@@ -974,51 +873,6 @@ public XParser(ParserSharedInputState state) {
 				}
 			
 		}
-		return atom;
-	}
-	
-	protected final String  ident_sheet(
-		java.lang.String sheet_name
-	) throws RecognitionException, TokenStreamException {
-		String atom;
-		
-		Token  id = null;
-		
-				String cr;
-				String x_name = null; // first name
-			
-		
-		match(LNOT);
-		id = LT(1);
-		match(IDENT);
-		x_name = id.getText();
-		cr=ident_cr(x_name);
-		
-				atom = ParseUtils.newInstance("SheetIntervalLiteral", new String[] {sheet_name, ParseUtils.cr(cr)});
-			
-		return atom;
-	}
-	
-	protected final String  ident_block(
-		java.lang.String block_name
-	) throws RecognitionException, TokenStreamException {
-		String atom;
-		
-		Token  id = null;
-		
-				String cr;
-				String x_name = null; // first name
-			
-		
-		match(WAVE);
-		id = LT(1);
-		match(IDENT);
-		x_name = id.getText();
-		cr=ident_cr(x_name);
-		
-				atom = ParseUtils.newInstance("BlockIntervalLiteral", new String[] {block_name, ParseUtils.cr(cr)});
-				//ParseUtils.fnString("new BlockIntervalLiteral(block_name, cr)");
-			
 		return atom;
 	}
 	
@@ -1215,13 +1069,11 @@ public XParser(ParserSharedInputState state) {
 			case IDENT:
 			case LPAREN:
 			case LBRACK:
-			case LCURLY:
 			case INT_NUM:
 			case STRING_LITERAL_DSQ:
 			case STRING_LITERAL_SSQ:
 			case CR_ADRESS:
 			case SHARP:
-			case AT:
 			{
 				ex=conditionOr();
 				break;
@@ -1376,7 +1228,7 @@ public XParser(ParserSharedInputState state) {
 			dim=location_dim();
 			dim_list.add(dim);
 			{
-			_loop51:
+			_loop49:
 			do {
 				if ((LA(1)==COMMA)) {
 					match(COMMA);
@@ -1384,7 +1236,7 @@ public XParser(ParserSharedInputState state) {
 					dim_list.add(dim);
 				}
 				else {
-					break _loop51;
+					break _loop49;
 				}
 				
 			} while (true);
@@ -1538,7 +1390,6 @@ public XParser(ParserSharedInputState state) {
 		"LPAREN",
 		"COMMA",
 		"RPAREN",
-		"WAVE",
 		"COLON",
 		"LBRACK",
 		"SEMI",
@@ -1553,10 +1404,11 @@ public XParser(ParserSharedInputState state) {
 		"STRING_LITERAL_SSQ",
 		"CR_ADRESS",
 		"SHARP",
-		"AT",
 		"QUESTION",
 		"BOR",
 		"BAND",
+		"AT",
+		"WAVE",
 		"Char",
 		"ESC",
 		"Exponent",

@@ -6,21 +6,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.extreme.commons.ColumnRow;
 import org.extreme.commons.Formula;
 import org.extreme.commons.Parameter;
 import org.extreme.commons.util.LogUtil;
-import org.extreme.commons.util.StringUtils;
 import org.extreme.commons.util.Utils;
-import org.extreme.script.parser.Ambiguity;
-import org.extreme.script.parser.CRAddress;
-import org.extreme.script.parser.ColumnRowLiteral;
-import org.extreme.script.parser.ColumnRowRange;
 import org.extreme.script.parser.Expression;
 import org.extreme.script.parser.InterpreterError;
 import org.extreme.script.parser.Node;
-import org.extreme.script.parser.Tiny;
-import org.extreme.script.parser.TinyHunter;
 import org.extreme.script.parser.UtilEvalError;
 import org.extreme.script.parser.XLexer;
 import org.extreme.script.parser.XParser;
@@ -251,147 +243,6 @@ public final class Calculator implements Serializable, Cloneable {
         } else {
             return ex.eval(this);
         }
-    }
-
-    /*
-     * 求statement中相关的ColumnRow
-     */
-    public static ColumnRow[] relatedColumnRowArray(String statement) throws ANTLRException {
-        Expression ex = new Calculator().parse(statement);
-
-        if (ex == null) {
-            return new ColumnRow[0];
-        }
-
-        ColumnRowHunter hunter = new ColumnRowHunter();
-        ex.traversal4Tiny(hunter);
-
-        return hunter.getColumnRowBooty();
-    }
-
-    //b:columnrowrange
-    public static ColumnRowRange[] relatedColumnRowRangeArray(String statement) throws ANTLRException {
-        Expression ex = new Calculator().parse(statement);
-
-        if (ex == null) {
-            return new ColumnRowRange[0];
-        }
-
-        ColumnRowHunter hunter = new ColumnRowHunter();
-        ex.traversal4Tiny(hunter);
-
-        return hunter.getColumnRowRangeBooty();
-    }
-
-    /*
-     * 求statement中相关的Parameter
-     */
-    public static String[] relatedParameters(String statement) throws ANTLRException {
-        Expression ex = new Calculator().parse(statement);
-
-        if (ex == null) {
-            return new String[0];
-        }
-
-        ParameterHunter hunter = new ParameterHunter();
-        ex.traversal4Tiny(hunter);
-
-        return hunter.getParameterBooty();
-    }
-
-    /*
-     * 查找相关的ColumnRow
-     */
-    private static class ColumnRowHunter extends TinyHunter {
-
-        private java.util.List list = new java.util.ArrayList();
-        private java.util.List rangeList = new java.util.ArrayList();
-
-        public ColumnRow[] getColumnRowBooty() {
-            return (ColumnRow[]) list.toArray(new ColumnRow[list.size()]);
-        }
-
-        public ColumnRowRange[] getColumnRowRangeBooty() {
-            return (ColumnRowRange[]) rangeList.toArray(new ColumnRowRange[rangeList.size()]);
-        }
-
-        public void hunter4Tiny(Tiny tiny) {
-            if (tiny instanceof ColumnRowRange) {
-                ColumnRowRange range = (ColumnRowRange) tiny;
-                rangeList.add(tiny);
-                ColumnRowLiteral from = range.getFrom();
-                if (from == null) {
-                    return;
-                }
-
-                ColumnRow start = from.getTargetColumnRow();
-                ColumnRow end = start;
-                ColumnRowLiteral to = range.getTo();
-                if (to != null) {
-                    end = to.getTargetColumnRow();
-                }
-
-                int startColumn = Math.min(start.column, end.column);
-                int startRow = Math.min(start.row, end.row);
-                int endColumn = Math.max(start.column, end.column);
-                int endRow = Math.max(start.row, end.row);
-
-                for (int ci = startColumn; ci <= endColumn; ci++) {
-                    for (int ri = startRow; ri <= endRow; ri++) {
-                        ColumnRow cr = ColumnRow.valueOf(ci, ri);
-                        if (!list.contains(cr) && ColumnRow.validate(cr)) {
-                            list.add(cr);
-                        }
-                    }
-                }
-            } else if (tiny instanceof CRAddress) {
-                ColumnRow cr = ((CRAddress) tiny).getTarget();
-                if (!list.contains(cr) && ColumnRow.validate(cr)) {
-                    list.add(cr);
-                }
-            }
-        }
-    }
-
-    /*
-     * 查找相关的Parameter
-     */
-    private static class ParameterHunter extends TinyHunter {
-
-        private java.util.List parameterList = new java.util.ArrayList();
-
-        public String[] getParameterBooty() {
-            return (String[]) parameterList.toArray(new String[parameterList.size()]);
-        }
-
-        public void hunter4Tiny(Tiny tiny) {
-            if (tiny instanceof Ambiguity) {
-                String statement = ((Ambiguity) tiny).getStatement();
-                if (StringUtils.isNotBlank(statement)
-                    && statement.startsWith(ScriptConstants.DETAIL_TAG)
-                    && !parameterList.contains(statement)) {
-                    parameterList.add(statement);
-                }
-            }
-        }
-    }
-
-    public String exStatement(ColumnRow currentColumnRow, String statement) {
-    	this.setAttribute(ColumnRow.class, currentColumnRow);
-
-        Expression ex = null;
-        try {
-            ex = parse(statement);
-        } catch (ANTLRException e) {
-            if ((ColumnRow)this.getAttribute(ColumnRow.class) != null) {
-                StringBuffer sb = new StringBuffer().append("Error Cell: ").append((ColumnRow)this.getAttribute(ColumnRow.class)).append(" and statement is \"").append(statement).append('\"').append('\n').append(e.getMessage());
-                LogUtil.getLogger().log(Level.WARNING,sb.toString(), e);
-            } else {
-                LogUtil.getLogger().log(Level.WARNING,"error statement is \"" + statement + "\"", e);
-            }
-        }
-
-        return ex == null ? statement : ex.exString(this);
     }
 
     protected static class NameSpaceChain implements Scope {

@@ -1,7 +1,6 @@
 package org.extreme.script.parser;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import org.extreme.script.Calculator;
 import org.extreme.script.FArray;
@@ -10,9 +9,9 @@ import org.extreme.script.Primitive;
 
 public class UnaryExpression implements Node {
 	String op;
-	Atom atom;
+	Node atom;
 	
-	UnaryExpression(String op, Atom atom) {
+	UnaryExpression(String op, Node atom) {
 		this.op = op;
 		this.atom = atom;
 	}
@@ -64,31 +63,7 @@ public class UnaryExpression implements Node {
 			throw new InterpreterError("error exists: " + op + atom);
     }
 	
-	public void traversal4Tiny(TinyHunter hunter) {
-		atom.traversal4Tiny(hunter);
-	}
-	
-	public String exString(Calculator calculator) {
-		return (op != null ? op : "") + atom.exString(calculator); 
-	}
-	
 	public String toString() {
 		return (op != null ? op : "") + atom.toString(); 
-	}
-
-	public String getExpression(int rowIndex, int rowChanged, int columnIndex, int colChanged, boolean isParameter) {
-		return (op != null ? op : "") + atom.getExpression(rowIndex, rowChanged, columnIndex, colChanged, isParameter); 
-	}
-
-	public String[] parserParameter() {
-		return atom.parserParameter();
-	}
-	
-	public void trav4HuntSIL(List list) {
-		atom.trav4HuntSIL(list);
-	}
-	
-	public void trav4HuntBIL(List list) {
-		atom.trav4HuntBIL(list);
 	}
 }

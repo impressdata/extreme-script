@@ -74,18 +74,6 @@ public class Formula {
         return false;
     }
 
-    public ColumnRow[] getRelatedColumnRows() {
-        if (StringUtils.isNotBlank(this.content)) {
-            try {
-                return Calculator.relatedColumnRowArray(this.content);
-            } catch (Exception e) {
-            	e.printStackTrace();
-            }
-        }
-
-        return new ColumnRow[0];
-    }
-
     /**
      * Equals.
      */

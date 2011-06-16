@@ -26,7 +26,7 @@ public class LET extends CalculatorEmbeddedFunction {
         
         for (int i = 0; i < args.length - 1; i += 2) {
         	if (args[i] instanceof Node) {
-        		String variableName = ((Node)args[i]).exString(c);
+        		String variableName = ((Node)args[i]).toString();
             	if (VariablePattern.matcher(variableName).find()) {
             		variableMap.put(variableName, c.eval(args[i + 1]));
             	}

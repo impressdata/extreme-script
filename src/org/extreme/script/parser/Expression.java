@@ -1,8 +1,6 @@
 package org.extreme.script.parser;
 
 
-import java.util.List;
-
 import org.extreme.script.Calculator;
 import org.extreme.script.Primitive;
 
@@ -28,32 +26,7 @@ public class Expression implements Node {
 		return result;
 	}
 	
-	public void traversal4Tiny(TinyHunter hunter) {
-		conditionpression.traversal4Tiny(hunter);
-	}
-	
-	public String exString(Calculator calculator) {
-		return conditionpression.exString(calculator);
-	}
-	
 	public String toString() {
 		return conditionpression.toString();
-	}
-	
-
-	public String getExpression(int rowIndex, int rowChanged, int columnIndex, int colChanged, boolean isParameter) {
-		return conditionpression.getExpression(rowIndex, rowChanged, columnIndex, colChanged, isParameter);
-	}
-
-	public String[] parserParameter() {
-		return conditionpression.parserParameter();
-	}
-	
-	public void trav4HuntSIL(List list) {
-		conditionpression.trav4HuntSIL(list);
-	}
-	
-	public void trav4HuntBIL(List list) {
-		conditionpression.trav4HuntBIL(list);
 	}
 }

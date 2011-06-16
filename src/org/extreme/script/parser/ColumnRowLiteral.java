@@ -84,47 +84,6 @@ public class ColumnRowLiteral {
 		return sb.toString();
 	}
 	
-	public String getExpression(int rowIndex, int rowChanged, int columnIndex, int colChanged, boolean isParameter) {
-		int newColumnIndex = targetColumnRow.getColumn();
-        if (columnIndex != -1 && targetColumnRow.getColumn() >= columnIndex) {
-        	newColumnIndex += colChanged;
-        }
-
-        // ÅÐ¶ÏRowIndex.
-        int newRowIndex = targetColumnRow.getRow();
-        if (rowIndex != -1 && targetColumnRow.getRow() >= rowIndex) {
-            newRowIndex += rowChanged;
-        }
-        
-        StringBuffer sb = new StringBuffer();
-		sb.append(ColumnRow.valueOf(newColumnIndex, newRowIndex).toString());
-		if(leftLocation != null || upLocation != null) {
-			sb.append('[');
-			if(leftLocation != null) {
-				leftLocation.changeColumnRow(rowIndex, rowChanged, columnIndex, colChanged);
-				sb.append(leftLocation);
-			}
-			if(upLocation != null) {
-				upLocation.changeColumnRow(rowIndex, rowChanged, columnIndex, colChanged);
-				sb.append(';').append(upLocation);
-			}
-			sb.append(']');
-		}
-		
-		if(condition != null) {
-			sb.append('{').append(condition.getExpression(rowIndex, rowChanged, columnIndex, colChanged, false)).append('}');
-		}
-		
-		if(start != null || end != null) {
-			if(condition == null) {
-				sb.append("{}");
-			}
-			sb.append('[').append(start.getExpression(rowIndex, rowChanged, columnIndex, colChanged, isParameter)).append(':').append(end.getExpression(rowIndex, rowChanged, columnIndex, colChanged, isParameter)).append(']');
-		}
-		
-		return sb.toString();
-	}
-	
 	public String getParameterName() {
 		return targetColumnRow.toString();
 	}

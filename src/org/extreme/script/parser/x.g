@@ -174,8 +174,6 @@ protected ident_prefix returns [String atom]
 	(
 	atom = ident_fn[f_name]
 	|
-	atom = ident_sheet[f_name]
-	|
 	atom = ident_cr[f_name]
 	)
 	;
@@ -207,21 +205,6 @@ protected ident_fn [java.lang.String f_name] returns [String atom]
 		}
 	}
 	)
-	;
-
-// sheet1!a1:b2
-protected ident_sheet [java.lang.String sheet_name] returns [String atom]
-	{
-		String cr;
-		String x_name = null; // first name
-	}
-	:
-	LNOT
-	id : IDENT {x_name = id.getText();} 
-	cr = ident_cr[x_name]
-	{
-		atom = ParseUtils.newInstance("SheetIntervalLiteral", new String[] {sheet_name, ParseUtils.cr(cr)});
-	}
 	;
 	
 // ambiguity or ColumnRow related
@@ -333,8 +316,6 @@ protected sl_or_sil returns [String atom]
 		text = text.substring(1, text.length() - 1);
 	}
 	(
-		atom = ident_sheet[text]
-		|
 		atom = sil_ssq[text]
 	)
 	;

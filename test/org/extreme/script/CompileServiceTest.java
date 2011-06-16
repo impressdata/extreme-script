@@ -5,7 +5,7 @@ import org.extreme.script.compiler.CompileService;
 import junit.framework.TestCase;
 
 /*
- * TODO: exString, parseExpressions...的实现
+ * TODO: parseExpressions...的实现
  */
 public class CompileServiceTest extends TestCase {
 	CompileService compileService;

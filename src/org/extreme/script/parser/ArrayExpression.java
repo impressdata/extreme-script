@@ -9,7 +9,7 @@ import org.extreme.script.FArray;
 import org.extreme.script.Primitive;
 
 
-public class ArrayExpression extends Atom {
+public class ArrayExpression implements Node {
 	private Node[] exp_array;
 	
 	ArrayExpression(Node[] array) {
@@ -30,23 +30,6 @@ public class ArrayExpression extends Atom {
 		}
 		
 		return new FArray(res_array);
-	}
-	
-	public void traversal4Tiny(TinyHunter hunter) {
-		for (int i = 0, len = exp_array == null ? 0 : exp_array.length; i < len; i++) {
-			if (exp_array[i] != null) {
-				exp_array[i].traversal4Tiny(hunter);
-			}
-		}
-	}
-	
-	public String exString(Calculator calculator) {
-		final Calculator fc = calculator;
-		return gen_string(new StringGen() {
-			public String gen_string(Node exp) {
-				return exp.exString(fc);
-			}
-		});
 	}
 	
 	public String toString() {
@@ -74,43 +57,5 @@ public class ArrayExpression extends Atom {
 
 	private static interface StringGen {
 		public String gen_string(Node exp);
-	}
-
-	public String getExpression(int rowIndex, int rowChanged, int columnIndex, int colChanged, final boolean isParameter) {
-		final int rowIn = rowIndex;
-		final int rowChange = rowChanged;
-		final int columnIn = columnIndex;
-		final int colChange = colChanged;
-		return gen_string(new StringGen() {
-			public String gen_string(Node exp) {
-				return exp.getExpression(rowIn, rowChange, columnIn, colChange, isParameter);
-			}
-		});
-	}
-
-	
-	public String[] parserParameter() {
-		List paraList = new ArrayList();
-		
-		for (int i = 0, length = exp_array.length; i < length; i++) {
-			paraList.addAll(Arrays.asList(exp_array[i].parserParameter()));
-		}
-		return (String[])paraList.toArray(new String[paraList.size()]);
-	}
-	
-	public void trav4HuntSIL(List list) {
-		for (int i = 0, len = exp_array == null ? 0 : exp_array.length; i < len; i++) {
-			if (exp_array[i] != null) {
-				exp_array[i].trav4HuntSIL(list);
-			}
-		}
-	}
-	
-	public void trav4HuntBIL(List list) {
-		for (int i = 0, len = exp_array == null ? 0 : exp_array.length; i < len; i++) {
-			if (exp_array[i] != null) {
-				exp_array[i].trav4HuntBIL(list);
-			}
-		}
 	}
 }

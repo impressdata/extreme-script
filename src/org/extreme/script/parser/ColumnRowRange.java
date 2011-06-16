@@ -2,7 +2,6 @@ package org.extreme.script.parser;
 
 import org.extreme.commons.ColumnRow;
 import org.extreme.script.Calculator;
-import org.extreme.script.ExTool;
 import org.extreme.script.Primitive;
 
 
@@ -66,15 +65,6 @@ public class ColumnRowRange extends Tiny {
 		return calculator.resolveVariableInCE(this);
 	}
 	
-	public String exString(Calculator calculator) {
-		Object attr = calculator.getAttribute(ExTool.TAG);
-		if(attr instanceof ExTool) {
-			return ((ExTool)attr).ex(calculator, this);
-		}
-		
-		return this.toString();
-	}
-	
 	public String toString() {
 		if (toString == null) {
 			StringBuffer sb = new StringBuffer().append(from);
@@ -85,10 +75,6 @@ public class ColumnRowRange extends Tiny {
 			toString = sb.toString();
 		}
 		return toString;
-	}
-
-	public String getExpression(int rowIndex, int rowChanged, int columnIndex, int colChanged, boolean isParameter) {
-		return from.getExpression(rowIndex, rowChanged, columnIndex, colChanged, isParameter) +  (to != null ? (":" + to.getExpression(rowIndex, rowChanged, columnIndex, colChanged, isParameter)) : "");
 	}
 
 	public String[] parserParameter() {

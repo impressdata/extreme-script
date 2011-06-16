@@ -1,14 +1,10 @@
 package org.extreme.script.parser;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import org.extreme.script.Calculator;
 import org.extreme.script.Function;
 
 
-public class FunctionCall extends Atom {
+public class FunctionCall implements Node {
 	private String name;
 	private Object[] arguments;
 	
@@ -53,34 +49,6 @@ public class FunctionCall extends Atom {
 		
 	}
 	
-	public void traversal4Tiny(TinyHunter hunter) {
-		for (int i = 0; i < arguments.length; i++) {
-			// : range(1,2,)这样写的话最后一个arguments是null
-			if(arguments[i] != null) {
-				if (arguments[i] instanceof Node) {
-					((Node)arguments[i]).traversal4Tiny(hunter);
-				}
-			}
-		}
-	}
-	
-	public String exString(Calculator calculator) {
-		StringBuffer sb = new StringBuffer();
-		sb.append(name).append('(');
-		for(int i = 0; i < arguments.length; i++) {
-			if(i > 0) {
-				sb.append(", ");
-			}
-			// : range(1,2,)这样写的话最后一个arguments是null
-			if(arguments[i] != null) {
-				sb.append(arguments[i] instanceof Node ? ((Node)arguments[i]).exString(calculator) : arguments[i]);
-			}
-		}
-		sb.append(')');
-		
-		return sb.toString();
-	}
-	
 	public String toString() {
 		StringBuffer sb = new StringBuffer();
 		sb.append(name).append('(');
@@ -95,48 +63,5 @@ public class FunctionCall extends Atom {
 		sb.append(')');
 		
 		return sb.toString();
-	}
-
-	public String getExpression(int rowIndex, int rowChanged, int columnIndex, int colChanged, boolean isParameter) {
-		StringBuffer sb = new StringBuffer();
-		sb.append(name).append('(');
-		for(int i = 0; i < arguments.length; i++) {
-			if(i > 0) {
-				sb.append(", ");
-			}
-			if(arguments[i] != null) {				
-				sb.append(arguments[i] instanceof Node ? ((Node)arguments[i]).getExpression(rowIndex, rowChanged, columnIndex, colChanged, isParameter) : arguments[i]);
-			}
-		}
-		sb.append(')');
-		
-		return sb.toString();
-	}
-
-	public String[] parserParameter() {
-		List paraList = new ArrayList();
-		for (int i = 0, length = arguments.length; i < length; i++) {
-			if (arguments[i] instanceof Node) {
-				paraList.addAll(Arrays.asList(((Node)arguments[i]).parserParameter()));
-			}
-			
-		}
-		return (String[])paraList.toArray(new String[paraList.size()]);
-	}
-	
-	public void trav4HuntSIL(List list) {
-		for (int i = 0; i < arguments.length; i++) {
-			if (arguments[i] instanceof Node) {
-				((Node)arguments[i]).trav4HuntSIL(list);
-			}
-		}
-	}
-	
-	public void trav4HuntBIL(List list) {
-		for (int i = 0; i < arguments.length; i++) {
-			if (arguments[i] instanceof Node) {
-				((Node)arguments[i]).trav4HuntBIL(list);
-			}
-		}
 	}
 }
